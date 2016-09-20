@@ -1,4 +1,4 @@
-package com.penske.jdbc;
+package com.trivera.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -40,7 +40,7 @@ public class CustomerJdbcDAO implements CustomerDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.penske.jdbc.CustomerDAO#insert(com.penske.jdbc.Customer)
+	 * @see com.trivera.jdbc.CustomerDAO#insert(com.trivera.jdbc.Customer)
 	 */
 	@Override
 	public Customer insert(Customer customer) {
@@ -57,7 +57,7 @@ public class CustomerJdbcDAO implements CustomerDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.penske.jdbc.CustomerDAO#findById(java.lang.Long)
+	 * @see com.trivera.jdbc.CustomerDAO#findById(java.lang.Long)
 	 */
 	@Override
 	public Customer findById(Long customerId) {
@@ -70,7 +70,7 @@ public class CustomerJdbcDAO implements CustomerDAO {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.penske.jdbc.CustomerDAO#findByLastName(java.lang.String)
+	 * @see com.trivera.jdbc.CustomerDAO#findByLastName(java.lang.String)
 	 */
 	@Override
 	public List<Customer> findByLastName(String lastName) {
@@ -94,7 +94,7 @@ public class CustomerJdbcDAO implements CustomerDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.penske.jdbc.CustomerDAO#findAll()
+	 * @see com.trivera.jdbc.CustomerDAO#findAll()
 	 */
 	@Override
 	public List<Customer> findAll() {
@@ -122,7 +122,7 @@ public class CustomerJdbcDAO implements CustomerDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.penske.jdbc.CustomerDAO#update(com.penske.jdbc.Customer)
+	 * @see com.trivera.jdbc.CustomerDAO#update(com.trivera.jdbc.Customer)
 	 */
 	@Override
 	public Customer update(Customer customer) {
@@ -138,7 +138,7 @@ public class CustomerJdbcDAO implements CustomerDAO {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.penske.jdbc.CustomerDAO#delete(com.penske.jdbc.Customer)
+	 * @see com.trivera.jdbc.CustomerDAO#delete(com.trivera.jdbc.Customer)
 	 */
 	@Override
 	public Customer delete(Customer customer) {

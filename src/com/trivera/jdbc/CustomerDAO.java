@@ -1,4 +1,4 @@
-package com.penske.jdbc;
+package com.trivera.jdbc;
 
 import java.util.List;
 
