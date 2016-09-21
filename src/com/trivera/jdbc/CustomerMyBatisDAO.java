@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -27,7 +28,8 @@ public class CustomerMyBatisDAO implements CustomerDAO {
 			String resource="SqlMapConfig.xml";
 			InputStream is = Resources.getResourceAsStream(resource);
 			factory = new SqlSessionFactoryBuilder().build(is);
-			session = factory.openSession();
+			boolean autoCommit = true;
+			session = factory.openSession(ExecutorType.REUSE, autoCommit); 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

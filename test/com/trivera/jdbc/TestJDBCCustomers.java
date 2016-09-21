@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class TestMyBatisCustomers {
+public class TestJDBCCustomers {
 	CustomerDAO dao;
 	
 	// @BeforeClass runs before any tests have fired
@@ -31,7 +31,7 @@ public class TestMyBatisCustomers {
 	// @Before runs before each @Test
 	@Before
 	public void setup() {
-		dao = new CustomerMyBatisDAO();
+		dao = new CustomerJdbcDAO();
 	}
 
 	// @After runs after each @Test

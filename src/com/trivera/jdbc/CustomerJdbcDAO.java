@@ -13,6 +13,7 @@ public class CustomerJdbcDAO implements CustomerDAO {
 	private Connection connection = null;
 	PreparedStatement findByIdStatement = null;
 	PreparedStatement findByLastNameStatement = null;
+	PreparedStatement findByFirstNameLastNameStatement = null;
 	PreparedStatement insertCustomerStatement = null;
 	PreparedStatement updateStatement = null;
 	PreparedStatement deleteStatement = null;
@@ -34,9 +35,12 @@ public class CustomerJdbcDAO implements CustomerDAO {
 			findByLastNameStatement = connection.prepareStatement(
 					"SELECT * FROM customer WHERE lastName = ?"
 					);
+			findByFirstNameLastNameStatement = connection.prepareStatement(
+					"SELECT * FROM customer WHERE lastName = ? and firstName = ?"
+					);
 			insertCustomerStatement = connection.prepareStatement(
 					"INSERT INTO customer (firstName, lastName, phoneNumber, email) "
-					+ "VALUES (?, ?, ?, ?)");
+					+ "VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 			updateStatement = connection.prepareStatement(
 					"UPDATE CUSTOMER SET firstName = ?, lastName = ?, phoneNumber = ?, email = ?"
 					+ " WHERE customerId = ?");
@@ -58,10 +62,16 @@ public class CustomerJdbcDAO implements CustomerDAO {
 			insertCustomerStatement.setString(2, customer.getLastName());
 			insertCustomerStatement.setString(3, customer.getPhoneNumber());
 			insertCustomerStatement.setString(4, customer.getEmail());
+			insertCustomerStatement.executeUpdate();
+//			connection.commit();
 			ResultSet keys = insertCustomerStatement.getGeneratedKeys();
-			if (keys.next()) {
+			if (keys != null && keys.next()) {
 				Long customerId = keys.getLong(1);
 				customer.setCustomerId(customerId);
+			} else {
+				// Handle fallback if generatedKeys doesn't work
+				System.err.println("Didn't get generated key!!!");
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -163,6 +173,7 @@ public class CustomerJdbcDAO implements CustomerDAO {
 			updateStatement.setString(3, customer.getPhoneNumber());
 			updateStatement.setString(4, customer.getEmail());
 			updateStatement.setLong(5, customer.getCustomerId());
+			updateStatement.execute();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -179,6 +190,7 @@ public class CustomerJdbcDAO implements CustomerDAO {
 		try {
 			connection.setAutoCommit(false);
 			deleteStatement.setLong(1, customer.getCustomerId());
+			deleteStatement.execute();
 			connection.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -189,5 +201,24 @@ public class CustomerJdbcDAO implements CustomerDAO {
 			}
 		}
 		return customer;
+	}
+
+	@Override
+	public List<Customer> findByFirstNameLastName(String firstName, String lastName) {
+		List<Customer> customers = new Vector<>();
+		// Validate lastName here!
+		// See JSR 303 Bean Validation ("hibernate-validator") or Spring validation
+		try {
+			findByFirstNameLastNameStatement.setString(1, lastName);
+			findByFirstNameLastNameStatement.setString(2, firstName);
+			ResultSet resultSet = findByFirstNameLastNameStatement.executeQuery();
+			while (resultSet.next()) {
+				customers.add(rowToCustomer(resultSet));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return customers;
+
 	}
 }
