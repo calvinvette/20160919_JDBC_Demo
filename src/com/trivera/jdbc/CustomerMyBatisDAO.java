@@ -12,6 +12,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import com.trivera.jdbc.mapper.AddressMapper;
+
 public class CustomerMyBatisDAO implements CustomerDAO {
 	public static final String QUERY_CUSTOMER_FIND_BY_FIRST_NAME_LAST_NAME = "Customer_findByFirstNameLastName";
 
@@ -28,6 +30,7 @@ public class CustomerMyBatisDAO implements CustomerDAO {
 			String resource="SqlMapConfig.xml";
 			InputStream is = Resources.getResourceAsStream(resource);
 			factory = new SqlSessionFactoryBuilder().build(is);
+			factory.getConfiguration().addMapper(AddressMapper.class);
 			boolean autoCommit = true;
 			session = factory.openSession(ExecutorType.REUSE, autoCommit); 
 		} catch (IOException e) {
