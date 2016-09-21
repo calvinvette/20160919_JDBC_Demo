@@ -18,24 +18,15 @@ public class CustomerMyBatisDAO implements CustomerDAO {
 	public static final String QUERY_CUSTOMER_FIND_BY_FIRST_NAME_LAST_NAME = "Customer_findByFirstNameLastName";
 
 	
-	// This should be static so all instances share the same configuration
-	private static SqlSessionFactory factory = null;
+	
 	// Should this be static? 
 	// An instance variable will allow each instance to have its own session
 	// This would prevent crossover in data operations per thread/request
 	private static SqlSession session = null;
 	
 	static {
-		try {
-			String resource="SqlMapConfig.xml";
-			InputStream is = Resources.getResourceAsStream(resource);
-			factory = new SqlSessionFactoryBuilder().build(is);
-			factory.getConfiguration().addMapper(AddressMapper.class);
-			boolean autoCommit = true;
-			session = factory.openSession(ExecutorType.REUSE, autoCommit); 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		boolean autoCommit = true;
+		session = MyBatisFactory.getInstance().openSession(ExecutorType.REUSE, autoCommit);
 	}
 
 	@Override

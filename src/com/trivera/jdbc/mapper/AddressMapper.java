@@ -66,7 +66,6 @@ public interface AddressMapper {
 	@Update(UPDATE)
 	public Address update(Address address);
 	
-	
 	@Delete(DELETE)
 	public Address delete(Address address);
 	
