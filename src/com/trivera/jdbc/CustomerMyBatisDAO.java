@@ -1,42 +1,85 @@
 package com.trivera.jdbc;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public class CustomerMyBatisDAO implements CustomerDAO {
+	// This should be static so all instances share the same configuration
+	private static SqlSessionFactory factory = null;
+	// Should this be static? 
+	// An instance variable will allow each instance to have its own session
+	// This would prevent crossover in data operations per thread/request
+	private static SqlSession session = null;
+	
+	static {
+		try {
+			String resource="SqlMapConfig.xml";
+			InputStream is = Resources.getResourceAsStream(resource);
+			factory = new SqlSessionFactoryBuilder().build(is);
+			session = factory.openSession();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public Customer insert(Customer customer) {
-		// TODO Auto-generated method stub
-		return null;
+		session.insert("insertCustomer", customer);
+		return customer;
 	}
 
 	@Override
 	public Customer findById(Long customerId) {
-		// TODO Auto-generated method stub
-		return null;
+		return session.selectOne("findCustomerById", customerId);
 	}
 
 	@Override
 	public List<Customer> findByLastName(String lastName) {
-		// TODO Auto-generated method stub
-		return null;
+		// You can use lastName as a single parameter like the findById method does, or you can use a key-value hash
+		// Note here we're using the "Double Brace Initialization" for expediency 
+		// (The outer {} is an anonymous inner class, the inner {} is an instance initializer)
+//		return session.selectList("findCustomersByLastName", lastName);
+		return session.selectList("findCustomersByLastName", new HashMap<String, String>() {{ put("lastName", lastName); }});
+	}
+	
+	@Override
+	public List<Customer> findByFirstNameLastName(String firstName, String lastName) {
+		return session.selectList("Customer_findCustomersByFirstNameLastName", new HashMap<String, String>() {{ 
+			put("lastName", lastName); 
+			put("firstName", firstName); 
+		}});
 	}
 
 	@Override
 	public List<Customer> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Customer> customers = new Vector<Customer>();
+		try {
+			customers = session.selectList("findAllCustomers");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return customers;
 	}
 
 	@Override
 	public Customer update(Customer customer) {
-		// TODO Auto-generated method stub
+		// Similar to the findByLastName, we can supply the entire instance.
+		// Instance properties are available in the Mapper (eg #{firstName})
+		session.update("updateCustomer", customer);
 		return null;
 	}
 
 	@Override
 	public Customer delete(Customer customer) {
-		// TODO Auto-generated method stub
+		session.delete("deleteCustomer", customer);
 		return null;
 	}
 

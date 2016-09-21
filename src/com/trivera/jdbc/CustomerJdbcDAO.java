@@ -18,25 +18,34 @@ public class CustomerJdbcDAO implements CustomerDAO {
 	PreparedStatement deleteStatement = null;
 	
 	static {
-		Class.forName("org.apache.derby.jdbc.ClientDriver");
+		try {
+			Class.forName("org.apache.derby.jdbc.ClientDriver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public CustomerJdbcDAO() {
-		connection = DriverManager.getConnection("jdbc:derby://localhost:1527/weasley;create=true", "user", "password");
-		findByIdStatement = connection.prepareStatement(
-					"SELECT * FROM customer WHERE customerId = ?"
+		try {
+			connection = DriverManager.getConnection("jdbc:derby://localhost:1527/weasley;create=true", "user", "password");
+			findByIdStatement = connection.prepareStatement(
+						"SELECT * FROM customer WHERE customerId = ?"
+						);
+			findByLastNameStatement = connection.prepareStatement(
+					"SELECT * FROM customer WHERE lastName = ?"
 					);
-		findByLastNameStatement = connection.prepareStatement(
-				"SELECT * FROM customer WHERE lastName = ?"
-				);
-		insertCustomerStatement = connection.prepareStatement(
-				"INSERT INTO customer (firstName, lastName, phoneNumber, email) "
-				+ "VALUES (?, ?, ?, ?)");
-		updateStatement = connection.prepareStatement(
-				"UPDATE CUSTOMER SET firstName = ?, lastName = ?, phoneNumber = ?, email = ?"
-				+ " WHERE customerId = ?");
-		deleteStatement = connection.prepareStatement(
-				"DELETE FROM CUSTOMER WHERE customerId = ?");
+			insertCustomerStatement = connection.prepareStatement(
+					"INSERT INTO customer (firstName, lastName, phoneNumber, email) "
+					+ "VALUES (?, ?, ?, ?)");
+			updateStatement = connection.prepareStatement(
+					"UPDATE CUSTOMER SET firstName = ?, lastName = ?, phoneNumber = ?, email = ?"
+					+ " WHERE customerId = ?");
+			deleteStatement = connection.prepareStatement(
+					"DELETE FROM CUSTOMER WHERE customerId = ?");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -44,14 +53,19 @@ public class CustomerJdbcDAO implements CustomerDAO {
 	 */
 	@Override
 	public Customer insert(Customer customer) {
-		insertCustomerStatement.setString(1, customer.getFirstName());
-		insertCustomerStatement.setString(2, customer.getLastName());
-		insertCustomerStatement.setString(3, customer.getPhoneNumber());
-		insertCustomerStatement.setString(4, customer.getEmail());
-		ResultSet keys = insertCustomerStatement.getGeneratedKeys();
-		if (keys.next()) {
-			Long customerId = keys.getLong(1);
-			customer.setCustomerId(customerId);
+		try {
+			insertCustomerStatement.setString(1, customer.getFirstName());
+			insertCustomerStatement.setString(2, customer.getLastName());
+			insertCustomerStatement.setString(3, customer.getPhoneNumber());
+			insertCustomerStatement.setString(4, customer.getEmail());
+			ResultSet keys = insertCustomerStatement.getGeneratedKeys();
+			if (keys.next()) {
+				Long customerId = keys.getLong(1);
+				customer.setCustomerId(customerId);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return customer;
 	}
@@ -61,10 +75,15 @@ public class CustomerJdbcDAO implements CustomerDAO {
 	 */
 	@Override
 	public Customer findById(Long customerId) {
-		findByIdStatement.setLong(1, customerId);
-		ResultSet resultSet = findByIdStatement.executeQuery();
-		if (resultSet.next()) {
-			return rowToCustomer(resultSet);
+		try {
+			findByIdStatement.setLong(1, customerId);
+			ResultSet resultSet = findByIdStatement.executeQuery();
+			if (resultSet.next()) {
+				return rowToCustomer(resultSet);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -77,10 +96,15 @@ public class CustomerJdbcDAO implements CustomerDAO {
 		List<Customer> customers = new Vector<>();
 		// Validate lastName here!
 		// See JSR 303 Bean Validation ("hibernate-validator") or Spring validation
-		findByLastNameStatement.setString(1, lastName);
-		ResultSet resultSet = findByLastNameStatement.executeQuery();
-		while (resultSet.next()) {
-			customers.add(rowToCustomer(resultSet));
+		try {
+			findByLastNameStatement.setString(1, lastName);
+			ResultSet resultSet = findByLastNameStatement.executeQuery();
+			while (resultSet.next()) {
+				customers.add(rowToCustomer(resultSet));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return customers;
 		
@@ -99,15 +123,20 @@ public class CustomerJdbcDAO implements CustomerDAO {
 	@Override
 	public List<Customer> findAll() {
 		List<Customer> customers = new Vector<>();
-		Statement statement = connection.createStatement();
-		ResultSet resultSet = statement.executeQuery("SELECT * FROM customer");
-		while (resultSet.next()) {
-			// resultSet.getLong(1);
-			Customer c = rowToCustomer(resultSet);
-			customers.add(c);
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM customer");
+			while (resultSet.next()) {
+				// resultSet.getLong(1);
+				Customer c = rowToCustomer(resultSet);
+				customers.add(c);
+			}
+			resultSet.close();
+			statement.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		resultSet.close();
-		statement.close();
 		return customers;
 	}
 
@@ -128,11 +157,16 @@ public class CustomerJdbcDAO implements CustomerDAO {
 	public Customer update(Customer customer) {
 		// TODO - consider adding optimistic locking (use verion# or timestamp for last-modified or "all-fields")
 
-		updateStatement.setString(1, customer.getFirstName());
-		updateStatement.setString(2, customer.getLastName());
-		updateStatement.setString(3, customer.getPhoneNumber());
-		updateStatement.setString(4, customer.getEmail());
-		updateStatement.setLong(5, customer.getCustomerId());
+		try {
+			updateStatement.setString(1, customer.getFirstName());
+			updateStatement.setString(2, customer.getLastName());
+			updateStatement.setString(3, customer.getPhoneNumber());
+			updateStatement.setString(4, customer.getEmail());
+			updateStatement.setLong(5, customer.getCustomerId());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return findById(customer.getCustomerId());
 	}

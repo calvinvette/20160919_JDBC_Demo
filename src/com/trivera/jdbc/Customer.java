@@ -2,13 +2,34 @@ package com.trivera.jdbc;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+//import org.hibernate.validator.constraints.CreditCardNumber;
+import org.hibernate.validator.constraints.Email;
+
 // Customer c = new Customer();
 public class Customer implements Serializable {
 	private Long customerId = -1L;
+	
+	@Size(min=1, max=20)
+	@Pattern(regexp="[A-Za-z\\-\\' ]*")
 	private String firstName;
+
+	@Size(min=1, max=20)
+	@Pattern(regexp="[A-Za-z\\-\\' ]*")
 	private String lastName;
+	
+	// This pattern will work only for the North American Calling Plan
+	@Pattern(regexp="\\(?\\d{3}\\)?[ \\.-]?\\d{3}[ \\.-]?\\d{4}")
 	private String phoneNumber;
+
+	@Email
 	private String email;
+	
+	// Mod-10 or Luhn-10 Checksum
+//	@CreditCardNumber
+//	private String creditCardNumber;
 
 	public Customer() {
 	}

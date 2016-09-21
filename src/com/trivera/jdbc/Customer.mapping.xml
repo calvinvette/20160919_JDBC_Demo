@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.trivera.jdbc">
+	<resultMap type="com.trivera.jdbc.Customer" id="customer" autoMapping="true">
+<!-- 		<result property="customerId" column="customerId"/> -->
+<!-- 		<result property="firstName" column="firstName"/> -->
+<!-- 		<result property="lastName" column="lastName"/> -->
+<!-- 		<result property="phoneNumber" column="phoneNumber"/> -->
+<!-- 		<result property="email" column="email"/> -->
+	
+	</resultMap>
+
+	<insert id="insertCustomer" useGeneratedKeys="true" keyColumn="customerId" keyProperty="customerId">
+		INSERT INTO customer
+			(firstName, lastName, phoneNumber, email)
+		VALUES
+			(#{firstName}, #{lastName}, #{phoneNumber}, #{email})
+	</insert>
+	<select id="findAllCustomers" resultMap="customer">
+		SELECT * FROM customer
+	</select>
+	<select id="findCustomerById" resultMap="customer">
+		SELECT * FROM customer WHERE customerId = #{id}
+	</select>
+	<select id="findCustomersByLastName" resultMap="customer">
+		SELECT * FROM customer WHERE lastName = #{lastName}
+	</select>
+	<select id="Customer_findCustomersByFirstNameLastName" resultMap="customer">
+		SELECT * FROM customer WHERE lastName = #{lastName} AND firstName = #{firstName}
+	</select>
+	<update id="updateCustomer">
+		UPDATE customer 
+		SET 
+			firstName = #{firstName},
+			lastName = #{lastName},
+			phoneNumber = #{phoneNumber},
+			email = #{email}
+		WHERE
+			customerId = #{customerId}
+	</update>
+	<delete id="deleteCustomer">
+		DELETE FROM customer WHERE customerId = #{customerId}
+	</delete>
+</mapper>

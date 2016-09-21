@@ -28,6 +28,14 @@ public interface CustomerDAO {
 	 * @return full customer for that customerId or null
 	 */
 	List<Customer> findByLastName(String lastName);
+	
+	/**
+	 * Find a list of customers with the given first and last name
+	 * @param firstName
+	 * @param lastName
+	 * @return
+	 */
+	List<Customer> findByFirstNameLastName(String firstName, String lastName);
 
 	/**
 	 * 
