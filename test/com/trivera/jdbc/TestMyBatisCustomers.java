@@ -27,28 +27,30 @@ public class TestMyBatisCustomers {
 	@Test
 	public void testFindAll() {
 		List<Customer> customers = dao.findAll();
-		System.out.println(customers);
+//		System.out.println(customers);
 		assertTrue("Wrong number of customers found", customers.size() >= 3);
 	}
 	
 	@Test
 	public void testFindByLastName() {
 		List<Customer> customers = dao.findByLastName("Weasley");
-		System.out.println(customers);
+//		System.out.println(customers);
 		assertTrue("Wrong number of customers found", customers.size() >= 1);
 	}
 	
 	@Test
 	public void testFindByFirstNameLastName() {
 		List<Customer> customers = dao.findByFirstNameLastName("Ron", "Weasley");
-		System.out.println(customers);
+//		System.out.println(customers);
 		assertEquals("Wrong number of customers found", 1, customers.size());
+		assertEquals("Wrong lastName", "Weasley", customers.get(0).getLastName());
+		assertEquals("Wrong firtName", "Ron", customers.get(0).getFirstName());
 	}
 	
 	@Test
 	public void testFindById() {
 		Customer harry = dao.findById(1L);
-		System.out.println(harry);
+//		System.out.println(harry);
 		assertNotNull(harry);
 		assertEquals("Wrong firstName", "Harry", harry.getFirstName());
 	}
@@ -56,7 +58,7 @@ public class TestMyBatisCustomers {
 	@Test
 	public void testUpdate() {
 		Customer hermione = dao.findById(3L);
-		System.out.println(hermione);
+//		System.out.println(hermione);
 		assertNotNull(hermione);
 		hermione.setLastName("Granger-Weasley");
 		dao.update(hermione);
@@ -69,7 +71,7 @@ public class TestMyBatisCustomers {
 	public void testInsert() {
 		Customer neville = new Customer("Neville", "Longbottom", "+44 0206 482-2941", "neville.longbottom@hogwarts.ac.uk");
 		dao.insert(neville);
-		System.out.println(neville);
+//		System.out.println(neville);
 		assertTrue("CustomerID was not set in the bean", neville.getCustomerId() != -1L);
 	}
 	
@@ -77,7 +79,7 @@ public class TestMyBatisCustomers {
 	public void testDelete() {
 		Customer draco = new Customer("Draco", "Malfoy", "+44 0206 910-1299", "draco@malfoy.co.uk");
 		dao.insert(draco);
-		System.out.println(draco);
+//		System.out.println(draco);
 		assertTrue("CustomerID was not set in the inserted bean prepping for delete", draco.getCustomerId() != -1L);
 		Long customerId = draco.getCustomerId();
 		dao.delete(draco);

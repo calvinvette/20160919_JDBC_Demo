@@ -9,7 +9,6 @@
 <!-- 		<result property="lastName" column="lastName"/> -->
 <!-- 		<result property="phoneNumber" column="phoneNumber"/> -->
 <!-- 		<result property="email" column="email"/> -->
-	
 	</resultMap>
 
 	<insert id="insertCustomer" useGeneratedKeys="true" keyColumn="customerId" keyProperty="customerId">
@@ -27,7 +26,7 @@
 	<select id="findCustomersByLastName" resultMap="customer">
 		SELECT * FROM customer WHERE lastName = #{lastName}
 	</select>
-	<select id="Customer_findCustomersByFirstNameLastName" resultMap="customer">
+	<select id="Customer_findByFirstNameLastName" resultMap="customer">
 		SELECT * FROM customer WHERE lastName = #{lastName} AND firstName = #{firstName}
 	</select>
 	<update id="updateCustomer">
