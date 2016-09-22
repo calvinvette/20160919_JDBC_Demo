@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,8 @@ import com.trivera.model.Customer;
 )
 public class CustomerREST {
 	// TODO - Inject this in; don't hard-code it!
-	private CustomerDAO dao = new CustomerMyBatisDAO();
+	@Autowired
+	private CustomerDAO customerDao; // = new CustomerMyBatisDAO();
 
 //	// http://localhost:8080/DemoJDBC/rest/customers/hello
 	@RequestMapping(value="/hello", method=RequestMethod.GET
@@ -49,13 +51,13 @@ public class CustomerREST {
 			value="/{customerId}"
 			)
 	public Customer findById(@PathVariable("customerId") Long customerId ) {
-		return dao.findById(customerId);
+		return customerDao.findById(customerId);
 	}
 
 	// http://localhost:8080/DemoJDBC/rest/customers
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<List<Customer>> findAll() {
-		return new ResponseEntity<List<Customer>>(dao.findAll(), HttpStatus.OK);
+		return new ResponseEntity<List<Customer>>(customerDao.findAll(), HttpStatus.OK);
 	}
 	
 	// http://localhost:8080/DemoJDBC/rest/customers/lastName/Weasley
@@ -63,7 +65,7 @@ public class CustomerREST {
 			value="/lastName/{lastName}"
 	)
 	public ResponseEntity<List<Customer>> findByLastName(@PathVariable("lastName") String lastName) {
-		return new ResponseEntity<List<Customer>>(dao.findByLastName(lastName), HttpStatus.OK);
+		return new ResponseEntity<List<Customer>>(customerDao.findByLastName(lastName), HttpStatus.OK);
 	}
 
 	// http://localhost:8080/DemoJDBC/rest/customers/lastName/Weasley/firstName/Ron
@@ -71,12 +73,12 @@ public class CustomerREST {
 			value="/lastName/{lastName}/firstName/{firstName}"
 	)
 	public ResponseEntity<List<Customer>> findByFirstNameLastName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
-		return new ResponseEntity<List<Customer>>(dao.findByFirstNameLastName(firstName, lastName), HttpStatus.OK);
+		return new ResponseEntity<List<Customer>>(customerDao.findByFirstNameLastName(firstName, lastName), HttpStatus.OK);
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Customer> insert(@RequestBody Customer customer) {
-		customer = dao.insert(customer);
+		customer = customerDao.insert(customer);
 		Long customerId = customer.getCustomerId();
 		HttpHeaders headers = new HttpHeaders();
 		// TODO - return ETAG and Location
@@ -87,7 +89,7 @@ public class CustomerREST {
 
 	@RequestMapping(method=RequestMethod.PUT)
 	public Customer update(@RequestBody Customer customer) {
-		return dao.update(customer);
+		return customerDao.update(customer);
 	}
 
 	// TODO - add JEE JAAS Security
@@ -95,7 +97,7 @@ public class CustomerREST {
 	// Configure JAAS WebSecurity in web.xml
 	@RequestMapping(method=RequestMethod.DELETE)
 	public Customer delete(@RequestBody Customer customer) {
-		return dao.delete(customer);
+		return customerDao.delete(customer);
 	}
 	
 

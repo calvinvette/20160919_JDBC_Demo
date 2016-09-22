@@ -11,10 +11,12 @@ import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.stereotype.Component;
 
 import com.trivera.jdbc.mapper.AddressMapper;
 import com.trivera.model.Customer;
 
+@Component("customerDao")
 public class CustomerMyBatisDAO implements CustomerDAO {
 	public static final String QUERY_CUSTOMER_FIND_BY_FIRST_NAME_LAST_NAME = "Customer_findByFirstNameLastName";
 
