@@ -13,6 +13,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.trivera.model.Customer;
+
 public class TestMyBatisCustomers {
 	CustomerDAO dao;
 	

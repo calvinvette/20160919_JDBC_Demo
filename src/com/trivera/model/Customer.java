@@ -1,4 +1,4 @@
-package com.trivera.jdbc;
+package com.trivera.model;
 
 import java.io.Serializable;
 
@@ -13,6 +13,7 @@ import org.hibernate.validator.constraints.Email;
 // Customer c = new Customer();
 // JSR-303 Bean Validation
 // JAXB
+// JPA??? (We're using MyBatis instead)
 @XmlType
 @XmlRootElement
 public class Customer implements Serializable {

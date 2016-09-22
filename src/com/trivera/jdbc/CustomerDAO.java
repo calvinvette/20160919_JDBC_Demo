@@ -2,6 +2,8 @@ package com.trivera.jdbc;
 
 import java.util.List;
 
+import com.trivera.model.Customer;
+
 public interface CustomerDAO {
 
 	/**

@@ -13,6 +13,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.trivera.jdbc.mapper.AddressMapper;
+import com.trivera.model.Customer;
 
 public class CustomerMyBatisDAO implements CustomerDAO {
 	public static final String QUERY_CUSTOMER_FIND_BY_FIRST_NAME_LAST_NAME = "Customer_findByFirstNameLastName";

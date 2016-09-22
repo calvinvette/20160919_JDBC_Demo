@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Vector;
 
+import com.trivera.model.Customer;
+
 public class CustomerJdbcDAO implements CustomerDAO {
 	private Connection connection = null;
 	PreparedStatement findByIdStatement = null;

@@ -1,7 +1,12 @@
-package com.trivera.jdbc;
+package com.trivera.model;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType
+@XmlRootElement
 public class Address implements Serializable {
 	private Long addressId = -1L;
 	private String line1;

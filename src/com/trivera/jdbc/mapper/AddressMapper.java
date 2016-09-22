@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.trivera.jdbc.Address;
+import com.trivera.model.Address;
 
 public interface AddressMapper {
 

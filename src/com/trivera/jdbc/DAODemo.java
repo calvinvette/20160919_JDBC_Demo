@@ -1,5 +1,7 @@
 package com.trivera.jdbc;
 
+import com.trivera.model.Customer;
+
 public class DAODemo {
 	final static String EMAIL = "harry.potter@auror.mom.gov.uk";
 	final static String PHONE = "+44 0206 919-9456";

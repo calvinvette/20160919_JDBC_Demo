@@ -12,8 +12,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.trivera.jdbc.Address;
 import com.trivera.jdbc.MyBatisFactory;
+import com.trivera.model.Address;
 
 public class TestAddressMapper {
 	
