@@ -38,19 +38,19 @@ public class TestCustomerREST {
 	public void testInsert() {
 		Customer snape = new Customer("Severus", "Snape", "+44 0206 199-1931", "severus.snape@hogwarts.ac.uk");
 		Customer result = restTemplate.postForObject("http://localhost:8080/DemoJDBC/rest/customers", snape, Customer.class);
-		System.out.println(result);
+		//System.out.println(result);
 		assertNotNull(result);
 		assertTrue("Bad Customer Id Returned!", result.getCustomerId() > 0);
 	}
 	
 	@Test
 	public void testUpdate() {
-		Customer harry = restTemplate.getForObject("http://localhost:8080/DemoJDBC/rest/customers", Customer.class);
+		Customer harry = restTemplate.getForObject("http://localhost:8080/DemoJDBC/rest/customers/1", Customer.class);
 		assertNotNull("Couldn't find customer to update! " + harry, harry);
 		String email = harry.getEmail();
 		harry.setEmail("harry@aurors.mom.gov.uk");
 		restTemplate.put("http://localhost:8080/DemoJDBC/rest/customers/", harry);
-		Customer harryAgain = restTemplate.getForObject("http://localhost:8080/DemoJDBC/rest/customers", Customer.class);
+		Customer harryAgain = restTemplate.getForObject("http://localhost:8080/DemoJDBC/rest/customers/1", Customer.class);
 		assertEquals("Harry's Email NOT changed!", "harry@aurors.mom.gov.uk", harryAgain.getEmail());
 		harryAgain.setEmail(email);
 		restTemplate.put("http://localhost:8080/DemoJDBC/rest/customers/", harryAgain);

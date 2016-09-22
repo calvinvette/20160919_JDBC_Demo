@@ -2,6 +2,8 @@ package com.trivera.rest;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +46,7 @@ public class CustomerREST {
 
 	// http://localhost:8080/DemoJDBC/rest/customers/1234
 	@RequestMapping(method=RequestMethod.GET,
-			value="/{customerId: \\d}"
+			value="/{customerId}"
 			)
 	public Customer findById(@PathVariable("customerId") Long customerId ) {
 		return dao.findById(customerId);
@@ -74,10 +76,11 @@ public class CustomerREST {
 
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Customer> insert(@RequestBody Customer customer) {
-		// TODO - return ETAG and Location
 		customer = dao.insert(customer);
 		Long customerId = customer.getCustomerId();
 		HttpHeaders headers = new HttpHeaders();
+		// TODO - return ETAG and Location
+		// TODO - Don't hardwire this base URL - dynamically figure it out!!
 		headers.add("Location", "http://localhost:8080/DemoJDBC/rest/customers/" + customerId);
 		return new ResponseEntity<Customer>(customer, headers, HttpStatus.OK);
 	}
@@ -87,6 +90,9 @@ public class CustomerREST {
 		return dao.update(customer);
 	}
 
+	// TODO - add JEE JAAS Security
+	//	@RolesAllowed({"admin", "customerServiceRep"})
+	// Configure JAAS WebSecurity in web.xml
 	@RequestMapping(method=RequestMethod.DELETE)
 	public Customer delete(@RequestBody Customer customer) {
 		return dao.delete(customer);
