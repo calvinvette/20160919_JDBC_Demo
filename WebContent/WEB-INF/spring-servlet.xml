@@ -12,7 +12,7 @@
 
 	<!-- <context:annotation-config/> -->
 	<mvc:annotation-driven />
-	<context:component-scan base-package="com.trivera.web" />
+	<context:component-scan base-package="com.trivera.rest" />
 	<!-- <context:component-scan base-package="com.trivera.model" /> -->
 	
 	<!-- To enable @RequestMapping process on type level and method level -->
