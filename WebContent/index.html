@@ -3,9 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Weasley's</title>
+<script src="//code.jquery.com/jquery.js"></script>
 </head>
 <body>
 
 <h1>Welcome to Weasley's</h1>
+<button id="btnGetCustomers">Get Customers</button><br/>
+<textarea id="results" rows="40" cols="80">
+Nothing to see yet.
+</textarea>
+<script>
+$("#btnGetCustomers").click(function() {
+	$.get("rest/customers/hello").done(function(data) {
+			var foo = data;
+		  $("#results").val(new XMLSerializer().serializeToString(data));
+	});
+});
+</script>
 </body>
 </html>
