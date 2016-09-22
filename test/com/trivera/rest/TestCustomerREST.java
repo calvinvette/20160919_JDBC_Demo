@@ -43,5 +43,19 @@ public class TestCustomerREST {
 		assertTrue("Bad Customer Id Returned!", result.getCustomerId() > 0);
 	}
 	
+	@Test
+	public void testUpdate() {
+		Customer harry = restTemplate.getForObject("http://localhost:8080/DemoJDBC/rest/customers", Customer.class);
+		assertNotNull("Couldn't find customer to update! " + harry, harry);
+		String email = harry.getEmail();
+		harry.setEmail("harry@aurors.mom.gov.uk");
+		restTemplate.put("http://localhost:8080/DemoJDBC/rest/customers/", harry);
+		Customer harryAgain = restTemplate.getForObject("http://localhost:8080/DemoJDBC/rest/customers", Customer.class);
+		assertEquals("Harry's Email NOT changed!", "harry@aurors.mom.gov.uk", harryAgain.getEmail());
+		harryAgain.setEmail(email);
+		restTemplate.put("http://localhost:8080/DemoJDBC/rest/customers/", harryAgain);
+		
+	}
+	
 	
 }

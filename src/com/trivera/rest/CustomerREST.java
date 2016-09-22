@@ -44,7 +44,7 @@ public class CustomerREST {
 
 	// http://localhost:8080/DemoJDBC/rest/customers/1234
 	@RequestMapping(method=RequestMethod.GET,
-			value="/{customerId: \\d*}"
+			value="/{customerId: \\d}"
 			)
 	public Customer findById(@PathVariable("customerId") Long customerId ) {
 		return dao.findById(customerId);

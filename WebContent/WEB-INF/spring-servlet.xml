@@ -28,7 +28,7 @@
         <property name="favorParameter" value="true" />
         <property name="mediaTypes">
             <value>
-            	xml=application/xml
+            		xml=application/xml
                 json=application/json
             </value>
         </property>
