@@ -8,15 +8,40 @@
 <body>
 
 <h1>Welcome to Weasley's</h1>
-<button id="btnGetCustomers">Get Customers</button><br/>
-<textarea id="results" rows="40" cols="80">
+URL: <input type="text" size="100" id="url" value="rest/customers/hello"/><br/>
+<button id="btnGetCustomers">Get</button>
+<button id="btnPostCustomers">Post</button>
+<br/>
+<!-- 
+<button id="btnPutCustomers">Put</button><br/>
+<button id="btnDeleteCustomers">Delete</button><br/>
+ -->
+<textarea id="results" rows="40" cols="132">
 Nothing to see yet.
 </textarea>
 <script>
 $("#btnGetCustomers").click(function() {
-	$.get("rest/customers/hello").done(function(data) {
-			var foo = data;
-		  $("#results").val(new XMLSerializer().serializeToString(data));
+	$.get($("#url").val()).done(function(data) {
+			if (typeof data == XMLDocument) {
+				  $("#results").val(new XMLSerializer().serializeToString(data));
+			} else if (typeof data == String) {
+				$("#results").val(data);
+			} else if (typeof data) {
+				$("#results").val(JSON.stringify(data));
+			}
+	});
+});
+$("#btnPostCustomers").click(function() {
+	var reqData = $("#results").val();
+	$("#results").val("");
+	$.post($("#url").val(), reqData).done(function(data) {
+		if (typeof data == XMLDocument) {
+			  $("#results").val(new XMLSerializer().serializeToString(data));
+		} else if (typeof data == String) {
+			$("#results").val(data);
+		} else if (typeof data) {
+			$("#results").val(JSON.stringify(data));
+		}
 	});
 });
 </script>
