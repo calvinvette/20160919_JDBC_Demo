@@ -20,17 +20,22 @@ import com.trivera.model.Customer;
 // http://localhost:8080/DemoJDBC/rest/customers
 @RestController // Spring 4, @Controller + @ResponseBody
 @RequestMapping(
-	value="/customers",
+	value="/customers"
+	//,
 //	produces={"application/xml", "application/json"},
-	produces={MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
-	consumes={MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
+//	produces={MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
+//	consumes={MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
 )
 public class CustomerREST {
 	// TODO - Inject this in; don't hard-code it!
 	private CustomerDAO dao = new CustomerMyBatisDAO();
 
 //	// http://localhost:8080/DemoJDBC/rest/customers/hello
-	@RequestMapping(value="/hello", method=RequestMethod.GET)
+	@RequestMapping(value="/hello", method=RequestMethod.GET
+//			,
+//			produces={"application/xml", "application/json"},
+//			consumes={"application/xml", "application/json"}
+			)
 	public Customer hello() {
 		return new Customer("Unknown", "Customer", "555-1212", "foo@bar.com");
 	}
