@@ -4,11 +4,17 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 //import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.Email;
 
 // Customer c = new Customer();
+// JSR-303 Bean Validation
+// JAXB
+@XmlType
+@XmlRootElement
 public class Customer implements Serializable {
 	private Long customerId = -1L;
 	

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.ResultMap;
+//import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -16,7 +16,7 @@ import com.trivera.jdbc.Address;
 
 public interface AddressMapper {
 
-	public static final String FIND_ALL = "SELECT * FROM address";
+	public static final String FIND_ALL = "SELECT * FROM ADDRESS";
 	public static final String FIND_BY_ID = 
 			"SELECT * FROM address WHERE address_id = #{addressId}";
 	public static final String INSERT = "INSERT INTO address "
@@ -39,35 +39,48 @@ public interface AddressMapper {
 			;
 	
 	@Select(FIND_ALL)
-	@Results(id = RESULT_MAPPER, value = {
+	@Results(
+//			id = RESULT_MAPPER, 
+//			value = 
+		{
 		@Result(property="addressId", column="ADDRESS_ID"),
 		@Result(property="line1", column="LINE1"),
 		@Result(property="line2", column="LINE2"),
 		@Result(property="city", column="CITY"),
 		@Result(property="state", column="STATE"),
 		@Result(property="zip", column="ZIP_CODE"),
-		
 	})
 	List<Address> findAll();
 	
 	@Select(FIND_BY_ID)
-	@ResultMap(RESULT_MAPPER)
+//	@ResultMap(RESULT_MAPPER)
+	@Results(
+//			id = RESULT_MAPPER, 
+			value = {
+			@Result(property="addressId", column="ADDRESS_ID"),
+			@Result(property="line1", column="LINE1"),
+			@Result(property="line2", column="LINE2"),
+			@Result(property="city", column="CITY"),
+			@Result(property="state", column="STATE"),
+			@Result(property="zip", column="ZIP_CODE"),
+			
+	})
 	Address findById(Long addressId);
 	
-	@Select(FIND_BY_CITY_STATE)
-	List<Address> findByCityState(
-			@Param("city") String city, 
-			@Param("state") String state);
+//	@Select(FIND_BY_CITY_STATE)
+//	List<Address> findByCityState(
+//			@Param("city") String city, 
+//			@Param("state") String state);
 	
-	@Insert(INSERT)
-	@Options(useGeneratedKeys=true, keyProperty="addressId")
-	void insert(Address address);
-	
-	@Update(UPDATE)
-	public Address update(Address address);
-	
-	@Delete(DELETE)
-	public Address delete(Address address);
+//	@Insert(INSERT)
+//	@Options(useGeneratedKeys=true, keyProperty="addressId")
+//	void insert(Address address);
+//	
+//	@Update(UPDATE)
+//	public Address update(Address address);
+//	
+//	@Delete(DELETE)
+//	public Address delete(Address address);
 	
 	
 }

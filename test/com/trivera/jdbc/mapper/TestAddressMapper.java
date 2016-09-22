@@ -1,11 +1,14 @@
 package com.trivera.jdbc.mapper;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,23 +19,30 @@ public class TestAddressMapper {
 	
 	private AddressMapper dao;
 	private SqlSession session;
+	private AddressMapper mapper;
 	
 	@Before
 	public void setup() {
 		session = MyBatisFactory.getInstance().openSession(ExecutorType.REUSE, true);
+		mapper = session.getMapper(AddressMapper.class);
+	}
+	
+	@After
+	public void tearDown() {
+		session.close();
 	}
 
 	@Test
 	public void TestFindAll() {
-//		 dao.findAll();
-		List<Address> addresses = session.getMapper(AddressMapper.class).findAll();
+		List<Address> addresses = mapper.findAll();
 		assertNotNull(addresses);
 		assertTrue("No addresses found!", addresses.size() > 0);
 	}
 
 	@Test
 	public void TestFindById() {
-//		return dao.findById(addressId);
+		Address harryHome = mapper.findById(1L);
+		assertNotNull(harryHome);
 	}
 
 //	public List<Address> findByCityState(String city, String state) {

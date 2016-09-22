@@ -1,0 +1,11 @@
+curl 'http://nextgened.com/weasley/product.json' 
+	-H 'Pragma: no-cache' 
+	-H 'Accept-Encoding: gzip, deflate, sdch' 
+	-H 'Accept-Language: en-US,en;q=0.8,pt-BR;q=0.6,pt;q=0.4,de;q=0.2,es-419;q=0.2,es;q=0.2,fr-FR;q=0.2,fr;q=0.2,gl;q=0.2' 
+	-H 'Upgrade-Insecure-Requests: 1' 
+	-H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36' 
+	-H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' 
+	-H 'Cache-Control: no-cache' 
+	-H 'Cookie: _ga=GA1.2.2020057057.1470686920; language=en-gb; express_sid=s%3Af1XXMPpXmDxjFXt-sRiVTQJoLt-buy-B.31ff6%2FY%2F42Q5xqMin8WU63CNkpM0pSzYf8uJQZnkJpY; token=t.GaIZilEMciOnWjnRgSa4; test=test' 
+	-H 'Connection: keep-alive' --compressed<Paste>
+	

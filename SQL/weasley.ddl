@@ -1,3 +1,5 @@
+DROP TABLE customer;
+
 CREATE TABLE customer (
 	customerId INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,
 	firstName VARCHAR(50),
@@ -14,4 +16,3 @@ INSERT INTO customer (firstName, lastName, phoneNumber, email) VALUES
 	('Hermione', 'Granger', '+44 0206 949-2466', 'hermione@hogwarts.ac.uk');
 
 SELECT * FROM customer;
-	
